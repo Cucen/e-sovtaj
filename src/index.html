@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Esovtaj</title>
+    <script src="http://192.168.1.7:3232/socket.io/socket.io.js"></script>
+    <script>
+    function connect() {
+
+        try
+        {
+            var socket = io.connect('http://192.168.1.7:3232/');
+            socket.on("connect",function(){
+                document.getElementById('status').innerHTML ="Sunucuya Bağlandı";
+                socket.emit('login', document.getElementById('txtUser').value, document.getElementById('txtPass').value);
+
+            });
+            socket.on('retuLogIn', function (data) {
+                document.getElementById('status').innerHTML = 'Hoşgeldin '+data;
+        
+            });
+        }
+        catch(err)
+        {
+            document.getElementById('status').innerHTML = err.message;
+        }
+    }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" />
+    <meta http-equiv="Content-Type" content="text/html; charset=x-mac-turkish" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    <script src="SpryData.js" language="javascript" type="text/javascript"></script>
+	<script src="SpryJSONDataSet.js" language="javascript" type="text/javascript"></script>
+    <script type="text/javascript">
+    var ds1 = new Spry.Data.JSONDataSet("araclar.js", {path: "Araclar.Tumu"});
+	</script>
+    <style type="text/css">
+   .ui-page 
+   {
+    background: transparent url(bg.jpg);
+    background-size:100% 100%;
+    background-repeat:repeat-n;
+   }
+   .big { height: 60px;}
+   .big .ui-btn-inner { padding-top:25px; }
+   .align-right 
+    { 
+    float:right; 
+    margin-right: 5px;
+    }
+    .main {
+    background: transparent url(bg.jpg);
+    background-size:100% 100%;
+    background-repeat:repeat-n;
+   }
+    </style>
+  
+
+</head>
+<body>
+    <div align="center" data-role="page" id="giris" data-theme="b" class="main">
+       <header data-role="header" data-position="fixed"><h1><center></center></header>
+       <center><h2>Esovtaj Kullanıcı Giriş</h2>
+        <div><p id="status">Kullanıcı Adı ve Parolanızı Giriniz</p></div>
+        <label>Kullanıcı Adı:</label>
+        <input id="txtUser" type="text" maxlength="10"/><br>
+        <label>Parola :</label>
+        <input id="txtPass" type="password" maxlength="10"/><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="araclar.html"><button id="girissayfa" data-theme="a" onClick='connect()'/>Giriş</button></a></center>
+        </center>
+    </div><!-- /page -->  
+    
+
+<div data-role="page" id="araclar11" data-theme="b">
+<header data-role="header" data-position="fixed"><h1><center></header>
+  
+	<br><br><br>
+	<ul data-role="listview"  spry:region="ds1" data-filter="true">
+        <li>
+            <a href="#" spry:repeat="ds1" style="color:white; background:#171515;">{marka} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{yer}<br>{Vites_Turu}
+            <img src="http://192.168.1.100:8080/esovtaj/img/3.jpg" spry:repeat="ds1" width="200" height="150" class="big"/></a>
+        </li>   
+    </ul>
+	
+</div>
+</body>
+</html>
